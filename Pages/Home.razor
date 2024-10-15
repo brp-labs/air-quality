@@ -1,0 +1,582 @@
+﻿@* 
+    Project: Air Quality App - Data is sourced from OpenWeatherMap.org
+    Author: Brian Ravn Pedersen, Data Engineer and Software Developer
+    Created: 2024-10-11
+    Technologies: C#, .NET, Blazor, Bootstrap, HTML, CSS
+    GitHub Repository: https://github.com/brp-labs/air-quality
+*@
+
+@page "/"
+
+@using System.Net.Http
+@using System.Net.Http.Json
+@using System.Text.Json
+@using System.IO
+@using System.Text.Json.Serialization
+
+@inject HttpClient Http
+
+<PageTitle>Air Quality</PageTitle>
+
+
+@if (airQualityDataList == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (airQualityDataList.Count > 0)
+{
+
+<div class="container-fluid">
+
+  <div class="top-header fs-1">Air Quality in Several Danish Cities</div>
+
+  <div class="row">
+
+    <div class="col-12 scrollable-table">
+
+      <div class="sticky-wrapper">
+
+        <table class="measurement-table table table-striped table-hover table-sm table-responsive table-bordered">
+          <thead>
+            <tr>
+              <th colspan="5">The European Air Quality Index (AQI) is visualized on a scale ranging from good to hazardous using color-coded ranking bullets. See definitions below. To update, press the F5 key.
+              </th>
+              <th class="text-center" title="Carbon Monoxide">CO</th>
+              <th class="text-center" title="Nitric Oxide">NO</th>
+              <th class="text-center" title="Nitrogen Dioxide">NO<span class="subcript-number">2</span></th>
+              <th class="text-center" title="Ozone">O<span class="subcript-number">3</span></th>
+              <th class="text-center" title="Sulfur Dioxide">SO<span class="subcript-number">2</span></th>
+              <th class="text-center" title="Ammonia">NH<span class="subcript-number">3</span></th>
+              <th class="text-center" title="Particulates < 10&#181;m">PM<span class="subcript-number">10</span></th>
+              <th class="text-center" title="Particulates < 2,5&#181;m">PM<span class="subcript-number">2.5</span></th>
+              <th class="text-center" title="Air Quality Index">Level</th>
+              <th class="text-center" title="Ranking">Ranking</th>
+            </tr>
+            <tr>
+              @* <th>Index</th> *@
+              <th>Sample Time</th>
+              <th>Latitude</th>
+              <th class="text-start">Longitude</th>
+              <th>City</th>
+              <th>Address</th>
+
+              <th>mg/m&#179;</th>
+              <th>&#181;g/m&#179;</th>
+              <th>&#181;g/m&#179;</th>
+              <th>&#181;g/m&#179;</th>
+              <th>&#181;g/m&#179;</th>
+              <th>&#181;g/m&#179;</th>
+              <th>&#181;g/m&#179;</th>
+              <th>&#181;g/m&#179;</th>
+
+              <th>1&ndash;6</th>
+              <th class="text-center"><span class="big-circle big-circle-aqi-0"></span></th>
+            </tr>
+          </thead>
+          <tbody>
+
+            @for (int i = 0; i < airQualityDataList.Count; i++)
+            {
+                var data = airQualityDataList[i];
+                @if (data.list != null) // Check if the list is not null.
+                {
+                    @for (int j = 0; j < data.list.Count; j++)
+                    {
+                        var entry = data.list[j];
+                        <tr>
+                            @* <td>@i-@j</td> *@
+                            <td>@entry.formattedDate</td>
+                            <td>@data.coord?.lat.ToString("F5")</td>
+                            <td>@data.coord?.lon.ToString("F5")</td>
+                            <td>@data.location?.city</td>
+                            <td>@data.location?.address</td>
+
+                            <td>@entry.components?.co.ToString("F2")</td>
+                            <td>@entry.components?.no.ToString("F2")</td>
+                            <td>@entry.components?.no2.ToString("F2")</td>
+                            <td>@entry.components?.o3.ToString("F2")</td>
+                            <td>@entry.components?.so2.ToString("F2")</td>
+                            <td>@entry.components?.nh3.ToString("F2")</td>
+                            <td>@entry.components?.pm10.ToString("F2")</td>
+                            <td>@entry.components?.pm2_5.ToString("F2")</td>
+
+                            <td title="AQI: @entry.components?.aqi_value.ToString("F0")">@entry.main?.aqi</td>
+
+                            <td title="AQI: @entry.components?.aqi_value.ToString("F0")">
+                              <span class="big-circle big-circle-aqi-@entry.main?.aqi"></span>
+                            </td>
+                        </tr>
+                    }
+                }
+            }
+
+          </tbody>
+        </table>
+
+      </div> <!-- class="sticky-wrapper" -->
+
+    </div>
+    
+  </div> <!-- end: row -->
+
+
+  <!-- Sticky footer placed outside the scrollable table. -->
+  <div class="row sticky-footer-wrapper">
+    <div class="row sticky-footer-container">
+      <div class="col-12">
+      </div>
+    </div>
+  </div> <!-- end: row --> 
+
+
+  <div class="row">
+
+    <div class="col-12 col-lg-3">
+
+      <div class="table-responsive">
+
+        <table class="aqi-definition-table table table-dark table-striped table-hover table-sm">
+          <tr>
+            <th colspan="4">The European Air Quality Index Levels</th>
+          </tr>
+          <tr>
+            <td>Level</td>
+            <td>AQI</td>
+            <td>Ranking</td>
+            <td>Description</td>
+          </tr>
+
+          <tr>
+            <td>1</td>
+            <td>0&ndash;50</td>
+            <td><span class="big-circle big-circle-aqi-1"></span>Green</td>
+            <td>Good</td>
+          </tr>
+
+          <tr>
+            <td>2</td>
+            <td>51&ndash;100</td>
+            <td><span class="big-circle big-circle-aqi-2"></span>Yellow</td>
+            <td>Moderate</td>
+          </tr>
+
+          <tr>
+            <td>3</td>
+            <td>101-150</td>
+            <td><span class="big-circle big-circle-aqi-3"></span>Orange</td>
+            <td>Unhealthy for sensitive groups</td>
+          </tr>
+
+          <tr>
+            <td>4</td>
+            <td>151-200</td>
+            <td><span class="big-circle big-circle-aqi-4"></span>Red</td>
+            <td>Unhealthy</td>
+          </tr>
+
+          <tr>
+            <td>5</td>
+            <td>201-300</td>
+            <td><span class="big-circle big-circle-aqi-5"></span>Purple</td>
+            <td>Very unhealthy</td>
+          </tr>
+
+          <tr>
+            <td>6</td>
+            <td>301-500</td>
+            <td><span class="big-circle big-circle-aqi-6"></span>Maroon</td>
+            <td>Hazardous</td>
+          </tr>
+
+        </table>
+
+      </div> <!-- end: class="table-responsive" -->
+
+    </div>
+
+
+
+    <div class="col-12 col-lg-9">
+
+      <div class="table-responsive">
+
+        <table class="table formula-table table-dark table-striped table-hover table-sm">
+          <tr>
+            <th>CO</th>
+            <th>NO</th>
+            <th>NO<span class="subcript-number">2</span></th>
+            <th>O<span class="subcript-number">3</span></th>
+            <th>SO<span class="subcript-number">2</span></th>
+            <th>NH<span class="subcript-number">3</span></th>
+            <th>PM<span class="subcript-number">10</span></th>
+            <th>PM<span class="subcript-number">2.5</span></th>
+          </tr>
+
+          <tr>
+            <td>Carbon Monoxide</td> 
+            <td>Nitric Oxide</td>
+            <td>Nitrogen Dioxide</td>
+            <td>Ozone</td>
+            <td>Sulfor Dioxide</td>
+            <td>Ammonia</td>
+            <td><span>Particulates &lt; 10&micro;m</span></td>
+            <td><span>Particulates &lt; 2,5&micro;m</span></td>
+          </tr>
+
+          <tr>
+            <td>0&ndash;5 mg/m&#179;</td> <!-- CO -->
+            <td>0&ndash;40 &#181;g/m&#179;</td> <!-- NO -->
+            <td>0&ndash;53 &#181;g/m&#179;</td> <!-- NO2 -->
+            <td>0&ndash;54 &#181;g/m&#179;</td> <!-- O3 -->
+            <td>0&ndash;20 mg/m&#179;</td> <!-- SO2 -->
+            <td>0&ndash;30 &#181;g/m&#179;</td> <!-- NH3 -->
+            <td>0&ndash;50 &#181;g/m&#179;</td> <!-- PM10 -->
+            <td>0&ndash;12 &#181;g/m&#179;</td> <!-- PM2.5 -->
+          </tr>
+
+          <tr>
+            <td>5,1&ndash;10 mg/m&#179;</td> <!-- CO -->
+            <td>41&ndash;100 &#181;g/m&#179;</td> <!-- NO -->
+            <td>54&ndash;100 &#181;g/m&#179;</td> <!-- NO2 -->
+            <td>55&ndash;70 &#181;g/m&#179;</td> <!-- O3 -->           
+            <td>21&ndash;75 &#181;g/m&#179;</td> <!-- SO2 -->
+            <td>31&ndash;60 &#181;g/m&#179;</td> <!-- NH3 -->
+            <td>51&ndash;100 &#181;g/m&#179;</td> <!-- PM10 -->
+            <td>12,1&ndash;35,4 &#181;g/m&#179;</td> <!-- PM2.5 -->
+          </tr>
+
+          <tr>
+            <td>10,1&ndash;17 mg/m&#179;</td>
+            <td>101&ndash;200 &#181;g/m&#179;</td>
+            <td>101&ndash;360 &#181;g/m&#179;</td> <!-- NO2 -->
+            <td>71&ndash;85 &#181;g/m&#179;</td> <!-- O3 -->          
+            <td>76&ndash;185 &#181;g/m&#179;</td> <!-- SO2 -->
+            <td>61&ndash;90 &#181;g/m&#179;</td> <!-- NH3 -->
+            <td>101&ndash;150 &#181;g/m&#179;</td> <!-- PM10 -->
+            <td>35,5&ndash;55,4 &#181;g/m&#179;</td> <!-- PM2.5 -->
+          </tr>
+
+          <tr>
+            <td>17,1&ndash;34 mg/m&#179;</td>
+            <td>201&ndash;400 &#181;g/m&#179;</td>
+            <td>361&ndash;649 &#181;g/m&#179;</td> <!-- NO2 -->
+            <td>86&ndash;105 &#181;g/m&#179;</td> <!-- O3 -->       
+            <td>186&ndash;304 &#181;g/m&#179;</td> <!-- SO2 -->
+            <td>91&ndash;120 &#181;g/m&#179;</td> <!-- NH3 -->
+            <td>151&ndash;200 &#181;g/m&#179;</td> <!-- PM10 -->
+            <td>55,5&ndash;150,4 &#181;g/m&#179;</td> <!-- PM2.5 -->
+          </tr>
+
+          <tr>
+            <td>34,1&ndash;40 mg/m&#179;</td>
+            <td>401&ndash;800 &#181;g/m&#179;</td> <!-- NO -->
+            <td>650&ndash;1249 &#181;g/m&#179;</td> <!-- NO2 -->
+            <td>106&ndash;200 &#181;g/m&#179;</td> <!-- O3 -->       
+            <td>305&ndash;604 &#181;g/m&#179;</td> <!-- SO2 -->
+            <td>121&ndash;180 &#181;g/m&#179;</td> <!-- NH3 -->
+            <td>201&ndash;300 &#181;g/m&#179;</td> <!-- PM10 -->
+            <td>150,5&ndash;250,4 &#181;g/m&#179;</td> <!-- PM2.5 -->
+          </tr>
+
+          <tr>
+            <td>>40 mg/m&#179;</td>
+            <td>>800 &#181;g/m&#179;</td> <!-- NO -->
+            <td>>1249 &#181;g/m&#179;</td> <!-- NO2 -->
+            <td>>200 &#181;g/m&#179;</td> <!-- O3 -->          
+            <td>>605 &#181;g/m&#179;</td> <!-- SO2 -->
+            <td>>180 &#181;g/m&#179;</td> <!-- NH3 -->
+            <td>>300 &#181;g/m&#179;</td> <!-- PM10 -->
+            <td>>250,4 &#181;g/m&#179;</td> <!-- PM2.5 -->
+          </tr>
+
+        </table>
+
+      </div> <!-- end: class="table-responsive" -->
+
+    </div>
+
+  </div>  <!-- end: row -->
+
+
+  <div class="row">
+
+    <div class="col-12">
+      <div class="disclaimer mb-2">
+        <b>Disclaimer:</b> Data provided in this app is sourced from <a href="https://openweathermap.org" target="_blank" rel="noopener noreferrer">OpenWeatherMap.org</a>. This information is intended for general informational purposes only and should not be used for professional decision-making. The accuracy and reliability of the data cannot be guaranteed. Users assume all responsibility for any actions taken based on this data. The app developer disclaims any liability for losses or damages arising from its use.
+      </div>
+    </div>
+
+  </div> <!-- end: row -->
+
+</div> <!-- end: class="container-fluid" -->
+
+
+}
+else
+{
+    <p>No air quality data available.</p>
+}
+
+@code {
+    private List<AirQualityData>? airQualityDataList;
+
+    private string json_file = "measurement-sites-dk.json";
+
+    private string api_key = "c1262517a04355d884e7692baf24655c";
+
+    @* [Inject] private HttpClient? Http { get; set; } *@
+
+    protected override async Task OnInitializedAsync()
+    {
+        @* var jsonString = await File.ReadAllTextAsync($"data/{json_file}"); *@
+
+        // Read a local JSON file containing information about the cities to measure.
+        // Depends on http-injection: @inject HttpClient Http -- cf. at the top.
+        var jsonString = await Http.GetStringAsync($"data/{json_file}");
+
+        var geoDataList = JsonSerializer.Deserialize<List<AirQualityData>>(jsonString);
+
+        if (geoDataList != null)
+        {
+            airQualityDataList = new List<AirQualityData>();
+
+            // Make an API request for each entry in the JSON file.
+            foreach (var geoData in geoDataList)
+            {
+                if (geoData.coord != null)
+                {
+
+                    var apiUrl = $"http://api.openweathermap.org/data/2.5/air_pollution?lat={geoData.coord.lat}&lon={geoData.coord.lon}&appid={api_key}";
+
+                    var apiResponse = await Http.GetFromJsonAsync<AirQualityData>(apiUrl);
+
+                    if (apiResponse != null)
+                    {
+                        geoData.list = apiResponse.list; // Update components and AQI data.
+                    }
+
+                    airQualityDataList.Add(geoData); // Add the updated record to the list.
+                }
+            }
+        }
+    }
+
+    public class AirQualityData
+    {
+        public Coord? coord { get; set; }
+        public Location? location { get; set; }
+        public List<AirQualityEntry>? list { get; set; } // Nullable list.
+    }
+
+    public class Coord
+    {
+        private double _lat;
+        private double _lon;
+
+        public double lat
+        {
+            get { return _lat; }
+            set { _lat = Math.Round(value, 5); }
+        }  
+        public double lon
+        {
+            get { return _lon; }
+            set { _lon = Math.Round(value, 5); }
+        }  
+    }
+
+
+    public class Location
+    {
+        public string? city { get; set; }
+        public string? address { get; set; }
+    }
+
+
+    public class AirQualityEntry
+    {
+        public Main? main { get; set; }  // Nullable.
+        
+        private Components? _components;
+        public Components? components
+        {
+          get { return _components; }
+
+          set {
+            _components = value;
+
+            if (main != null) {
+              double aqi = CalculateOverallAQI();
+              main.aqi = (int)aqi;
+            }
+
+          }
+        }
+          
+
+        // 2-dimensional matrix with 5 threshold values for each pollutant.
+        private static double[,] pollutantThresholds = new double[8, 5]
+        {
+            // CO, NO, NO2, O3, SO2, NH3, PM10, PM2.5
+            { 5, 10, 17, 34, 40 },           // CO (mg/m³)
+            { 40, 100, 200, 400, 800 },      // NO (µg/m³)
+            { 53, 100, 360, 649, 1249 },     // NO2 (µg/m³)
+            { 54, 70, 85, 105, 200 },        // O3 (µg/m³)
+            { 20, 75, 185, 304, 604 },       // SO2 (µg/m³)
+            { 30, 60, 90, 120, 180 },        // NH3 (µg/m³)
+            { 50, 100, 150, 200, 300 },      // PM10 (µg/m³)
+            { 12, 35.4, 55.4, 150.4, 250.4 } // PM2.5 (µg/m³)
+        };
+
+        // The AQI values corresponding to the threshold values of the pollutants.
+        private static int[] AQILevels = { 50, 100, 150, 200, 300, 500 };
+
+
+        // Return an integer in the range 1-6 (AQI Level) based on the maxAQI value.
+        public static int GetAQILevel(double maxAQI)
+        {
+            for (int i = 0; i < AQILevels.Length; i++)
+            {
+                if (maxAQI <= AQILevels[i])
+                {
+                    return i + 1; // Returns the AQI level (1-6)
+                }
+            }
+
+            // Return 6 if maxAQI is greater than 500 (the last level in the AQILevels array).
+            return 6;
+        }
+
+        public static double CalculateAQI( double measurements, double[] thresholds )
+        {
+
+          for (int i = 0; i < thresholds.Length; i++)
+          {
+              if (measurements <= thresholds[i])
+              {
+                  // Use the AQI formula to calculate the actual AQI for the given interval.
+                  double C_low = i == 0 ? 0 : thresholds[i - 1]; // The lowest pollutant threshold value in the interval.
+                  double C_high = thresholds[i]; // The highest pollutant threshold value in the interval.
+                  double I_low = i == 0 ? 0 : AQILevels[i - 1] + 1; // The lowest AQI value in the interval.
+                  double I_high = AQILevels[i]; // The highest AQI value in the interval.
+                  
+                  return ((I_high - I_low) / (C_high - C_low)) * (measurements - C_low) + I_low;
+              }
+          }
+          // If the pollutant measurement exceeds the highest threshold, return an AQI value of 500 (Hazardous).
+          return 500;
+        }
+
+
+        public double CalculateOverallAQI()
+        {
+
+          // Instantiate a list.
+          List<double> measurements = new List<double>();
+
+          if ( _components != null ) {
+              measurements.Add(_components.co);
+              measurements.Add(_components.no);
+              measurements.Add(_components.no2);
+              measurements.Add(_components.o3);
+              measurements.Add(_components.so2);
+              measurements.Add(_components.nh3);
+              measurements.Add(_components.pm10);
+              measurements.Add(_components.pm2_5);
+          }
+
+          double maxAQI = 0; // Initialization: Starting with the lowest possible AQI value in the range (0-500).
+
+          for (int i = 0; i < measurements.Count; i++) {
+
+              // Get the threshold values for the current pollutant and store them in the thresholds array.
+              double[] thresholds = new double[5];
+              
+              for (int j = 0; j < 5; j++)
+              {
+                  thresholds[j] = pollutantThresholds[i, j];
+              }
+
+              // Calculate AQI for the current pollutant and update maxAQI if necessary.
+              double currentAQI = CalculateAQI(measurements[i], thresholds);
+
+              if (currentAQI > maxAQI)
+              {
+                  maxAQI = currentAQI;
+              }
+          }
+          if (maxAQI != 0 && _components != null) {
+            _components.aqi_value = maxAQI; // Store the highest AQI-value achieved along with the actual components in the range (0-500).
+          }
+
+          return GetAQILevel(maxAQI); // Return the highest AQI-value achieved in the range (0-500).
+
+        }
+
+        private long _dt;
+        public long dt
+        {
+          get { return _dt; }
+
+          set {
+              _dt = value;
+              formattedDate = ConvertUnixTimestampToDateTime(_dt);
+          }
+        }
+
+        public string? formattedDate { get; private set; } // Nullable.
+        private static string ConvertUnixTimestampToDateTime(long unixTimestamp)
+        {
+            // Define the Copenhagen time zone.
+            TimeZoneInfo copenhagenTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Europe/Copenhagen");
+
+            // Convert UNIX timestamp to UTC DateTime.
+            DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(unixTimestamp);
+
+            DateTime dateTimeUtc = dateTimeOffset.UtcDateTime;
+
+            // Convert UTC DateTime to Copenhagen time.
+            DateTime dateTimeCopenhagen = TimeZoneInfo.ConvertTimeFromUtc(dateTimeUtc, copenhagenTimeZone);
+
+            // Format DateTime to string format.
+            return dateTimeCopenhagen.ToString("yyyy-MM-dd HH:mm:ss");
+        }
+    }
+
+    public class Main
+    {
+        private int _aqi;
+        public int aqi
+        {
+            get { return _aqi; }
+            set { _aqi = value; }
+        }
+    }
+
+    public class Components
+    {
+        private double _co;
+        public double co
+        {
+            get { return _co; }
+
+            <!-- CO value received in milligram. Here: Converted to microgram. -->
+            set { _co = value / 1000; }
+        }
+
+        public double no { get; set; }
+        public double no2 { get; set; }
+        public double o3 { get; set; }
+        public double so2 { get; set; }
+        public double pm2_5 { get; set; }
+        public double pm10 { get; set; }
+        public double nh3 { get; set; }
+
+        private double _aqi_value;
+        public double aqi_value
+        {
+            get { return _aqi_value; }
+            set { _aqi_value = value; }
+        }
+    }
+}
