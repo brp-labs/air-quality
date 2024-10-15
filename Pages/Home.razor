@@ -346,7 +346,7 @@ else
                 if (geoData.coord != null)
                 {
 
-                    var apiUrl = $"http://api.openweathermap.org/data/2.5/air_pollution?lat={geoData.coord.lat}&lon={geoData.coord.lon}&appid={api_key}";
+                    var apiUrl = $"https://api.openweathermap.org/data/2.5/air_pollution?lat={geoData.coord.lat}&lon={geoData.coord.lon}&appid={api_key}";
 
                     var apiResponse = await Http.GetFromJsonAsync<AirQualityData>(apiUrl);
 
