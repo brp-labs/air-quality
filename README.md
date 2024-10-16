@@ -1,4 +1,4 @@
-<h3>Air Quality in Several Danish Cities and some Other Cities Around the World for Comparison</h3>
+<h3>Air Quality in Several Danish Cities and Other Cities Around the World for Comparison</h3>
 
 <b>Author:</b> Brian Ravn Pedersen, Data Engineer and Software Developer<br/>
 <b>Created:</b> 2024-10-11<br/>
