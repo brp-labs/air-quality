@@ -1,4 +1,5 @@
-# ignore these folders:
+# Ignore these folders:
+
 bin/
 obj/
 .vscode/
