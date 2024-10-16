@@ -1,0 +1,322 @@
+/******************************************************/
+/* Custom styling applied on the Air Quality project. */
+/* This stylesheet is loaded by the App.razor file.   */  
+/* Author: Brian Ravn Pedersen                        */
+/******************************************************/
+
+body {
+  background-color: #f9f9f9;
+}
+
+* {
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+table tr {
+  white-space: nowrap;
+  overflow-x: auto;
+}
+
+/* This outline covers up the scrolling table at the top. */
+.top-header {
+  width: 100%;
+  position: relative;
+  z-index: 20;
+  outline: 1px solid #f9f9f9;
+}
+
+/* Shifts the numbers in the chemical formulas towards the baseline. */
+.subcript-number {
+  vertical-align: -15%;
+  font-size: 75%;
+}
+
+/* Form and color for the different bullets. */
+.big-circle {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  display: inline-block;
+  vertical-align: -2px;
+}
+
+/* Color on the bullet used in the subheader: Ranking */
+.big-circle-aqi-0 {
+  background-color: #888787;
+}
+
+/* Green - Good */
+.big-circle-aqi-1 {
+  background-color: #008000;
+}
+
+/* Yellow - Moderate */
+.big-circle-aqi-2 {
+  background-color: #efef15;
+}
+
+/* Orange - Unhealthy for sensitive groups */
+.big-circle-aqi-3 {
+  background-color:#f67e06;
+}
+
+/* Red - Unhealthy */
+.big-circle-aqi-4 {
+  background-color: hsl(0, 94%, 49%);
+}
+
+/* Purple - Very unhealthy */
+.big-circle-aqi-5 {
+  background-color: #c01df6;
+}
+
+/* Maroon - Hazardous */
+.big-circle-aqi-6 {
+  background-color: #800000;
+}
+
+
+/******************************************************/
+/* Measurement Table */
+
+/* Header: The European Air Quality Index (AQI) is visualized... */
+table.measurement-table thead tr:nth-of-type(1) th:nth-child(1) {
+  background-color: #222;
+  font-weight: 400;
+  color: #e9e9e9 !important;
+  text-align: start;
+}
+
+/* Headers: CO -- PM2.5 */
+table.measurement-table thead tr:nth-of-type(1) th {
+  background-color: #bbb;
+  text-align: center;
+}
+
+/* Headers: AQI -- Ranking */
+table.measurement-table thead tr:nth-child(1) th:nth-child(n+10):nth-child(-n+11) {
+  /* color: #eee; */
+  color: #f8ebd8 !important;
+  font-weight: 500;
+  text-align: center;
+  background-color: #323539;
+}
+
+/* Subheaders: Sample Time -- Address  */
+table.measurement-table thead tr:nth-child(2) th:nth-child(n+1):nth-child(-n+5) {
+  background-color: #bbb;
+  font-weight: 600;
+  color: #222;
+}
+
+/* Subheaders: ug/m3, ug/m3, ug/m3 -- ug/m3 */
+table.measurement-table thead tr:nth-child(2) th:nth-child(n+6):nth-child(-n+13) {
+  color: #222;
+  font-weight: 500;
+  text-align: center;
+  background-color: #d2d2d2;
+}
+
+/* Subheaders: 1-5 -- Ranking Bullet */
+table.measurement-table thead tr:nth-child(2) th:nth-child(n+14):nth-child(-n+15) {
+  background-color: #666  ;
+  color: #e9e9e9;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Measurement: CO -- PM2.5 */
+table.measurement-table tbody tr td:nth-child(n+6):nth-child(-n+13) {
+  text-align: end;
+}
+
+/* Measurement: AQI: 1-5 */
+table.measurement-table tbody tr td:nth-child(14) {
+  color: #eee;
+  font-weight: 400;
+  text-align: center;
+  background-color: #323539;
+}
+
+/* Measurement: Ranking Bullets */
+table.measurement-table tbody tr td:nth-child(15) {
+  text-align: center;
+  background-color: #323539;
+}
+
+
+/******************************************************/
+/* AQI Definition Table */
+
+table.aqi-definition-table {
+  box-shadow: 0px 2px 2px #cccccc;
+}
+
+table.aqi-definition-table,
+table.aqi-definition-table th,
+table.aqi-definition-table td {
+  border: 1px solid #DEE2E6;
+}
+
+/* The European Air Quality Index Levels */
+table.aqi-definition-table tr:nth-child(1) th {
+  color: #eee !important;
+  font-weight: 500 !important;
+}
+
+table.aqi-definition-table td {
+  color: #ddd !important;
+}
+
+table.aqi-definition-table {
+  border-collapse: collapse;
+}
+
+/* Level - AQI - Ranking */
+table.aqi-definition-table tr:nth-child(2) td:nth-child(n+1):nth-child(-n+3) {
+  text-align: center;
+  font-weight: 400;
+  color: #f8ebd8 !important;
+}
+
+/* Description */
+table.aqi-definition-table tr:nth-child(2) td:nth-child(4) {
+  text-align: start;
+  font-weight: 400;
+  color: #f8ebd8 !important;
+  padding-left: 4px;
+}
+
+table.aqi-definition-table tr:nth-child(n+3):nth-child(-n+8) td:nth-child(n+1):nth-child(2) {
+  text-align: center;
+}
+
+/* Level: 1..6 */
+table.aqi-definition-table tr:nth-child(n+3):nth-child(-n+8) td:nth-child(1) {
+  color: #e9e9e9 !important;
+  text-align: center;
+  width: 40px;
+}
+
+/* Ranking: Bullets */
+table.aqi-definition-table tr:nth-child(n+3):nth-child(-n+8) td:nth-child(3) > span {
+  margin: 0px 8px 0px 2px;
+}
+
+/* Ranking: Color name: Green -- Maroon */
+table.aqi-definition-table tr:nth-child(n+3):nth-child(-n+8) td:nth-child(3) {
+  color: #e9e9e9 !important;
+  padding-left: 8px;
+}
+
+/* Description: Good -- Hazardous */
+table.aqi-definition-table tr:nth-child(n+3):nth-child(-n+8) td:nth-child(4) {
+  text-align: start;
+  font-weight: 400;
+  padding-left: 4px;
+}
+
+
+/******************************************************/
+/* Chemical Formula Definition */
+
+table.formula-table {
+  box-shadow: 0px 2px 2px #cccccc;
+}
+
+table.formula-table,
+table.formula-table th,
+table.formula-table td {
+  border: 1px solid #DEE2E6;
+}
+
+/* Headers: CO -- PM2.5 */
+table.formula-table tr:nth-child(1) th {
+  color: #eee !important;
+  font-weight: 500 !important;
+  text-align: center;
+}
+
+/* Subheaders: Carbon monoxide -- Particulates < 2,5um */
+table.formula-table tr:nth-child(2) td {
+  color: #f8ebd8 !important;
+  font-weight: 400 !important;
+  text-align: center;
+}
+
+/* Threshold values */
+table.formula-table tr:nth-child(n+3):nth-child(-n+8) td {
+  color: #ddd !important;
+  font-weight: 400 !important;
+  text-align: end;
+  padding-right: 5px;
+}
+
+
+/******************************************************/
+/* Make the measurement table vertically scrollable. */
+
+.scrollable-table {
+  overflow-x: auto;
+  max-height: 624px; /* The height of the visible table. */
+  overflow-y: auto;
+  position: relative;
+  margin-bottom: 5px;
+}
+
+
+/******************************************************/
+/* Stickyfy the headers in the measurement table. */
+
+/* Prepare sticky headers by wrapping the measurement table. */
+.sticky-wrapper {
+  position: relative;
+}
+
+/* Stickyfy the headers. */
+.scrollable-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 10; /* Ensures that headers are at the top. */
+}
+
+/* Ajust top-property according to the height of the first row. */
+.scrollable-table thead tr:nth-child(2) th {
+  top: 35px;
+}
+
+
+/******************************************************/
+/* Stickyfy a line under the measurement table. */
+
+/* Wrapper used to ensure margins on sticky-footer-container. */
+.sticky-footer-wrapper {
+  margin-left: 12px; /* Left margin */
+  margin-right: 6px; /* Right margin */
+}
+
+/* Stickyfy the line (footer) beneath the measurement table. */
+.sticky-footer-container {
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  background-color: #f9f9f9;
+  border-top: solid 1px #bbb;
+  box-shadow: 0px -4px 1px #ddd;
+  z-index: 10;
+  text-align: center;
+  padding: 5px;
+}
+
+
+/******************************************************/
+/* The disclaimer at the bottom of the page. */
+
+.disclaimer {
+  background-color: #e7e7e7;
+  margin: 0px;
+  padding: 4px;
+  border-radius: 4px;
+  box-shadow: 0px 2px 2px #cccccc;
+}
+

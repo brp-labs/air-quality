@@ -1,0 +1,47 @@
+<!--  
+
+  Project: Air Quality App - Data is sourced from OpenWeatherMap.org
+  Author: Brian Ravn Pedersen, Data Engineer and Software Developer
+  Created: 2024-10-11
+  Technologies: C#, .NET, Blazor, Bootstrap, HTML, CSS
+  GitHub Repository: https://github.com/brp-labs/air-quality
+
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Air Quality</title>
+
+    <base href="/" />
+
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/app.css" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link rel="stylesheet" href="css/custom.css"  />
+</head>
+
+<body>
+    <div id="app">
+        <svg class="loading-progress">
+            <circle r="40%" cx="50%" cy="50%" />
+            <circle r="40%" cx="50%" cy="50%" />
+        </svg>
+        <div class="loading-progress-text"></div>
+    </div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+    <!-- cf. https://learn.microsoft.com/en-us/aspnet/core/blazor/project-structure?view=aspnetcore-8.0 -->
+    <script src="_framework/blazor.webassembly.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</body>
+
+</html>
