@@ -1,5 +1,5 @@
-# Ignore these folders:
-
+# Ignore these files and folders:
 bin/
 obj/
 .vscode/
+*.php
