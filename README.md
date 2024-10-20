@@ -5,9 +5,8 @@
 <b>Technologies:</b> C#, .NET, Blazor (WebAssembly), Bootstrap, HTML, CSSL<br/>
 <b>GitHub Repository:</b> https://github.com/brp-labs/air-quality<br/>
 <b>GitHub Pages:</b> https://brp-labs.github.io/air-quality<br/>
-<br/>
 
-Data used for this application is sourced from OpenWeather at OpenWeatherMap.org.
+Data used for this application is sourced from OpenWeather at https://openweathermap.org.
 
 <hr/>
 
