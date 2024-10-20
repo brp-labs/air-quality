@@ -14,6 +14,7 @@
 @using System.IO
 @using System.Text.Json.Serialization
 
+@* The instance, Http, was instantiated in the Program.cs file. *@
 @inject HttpClient Http
 
 <PageTitle>Air Quality</PageTitle>
@@ -246,8 +247,8 @@ else if (airQualityDataList.Count > 0)
           </tr>
 
           <tr>
-            <td>10,1&ndash;17 mg/m&#179;</td>
-            <td>101&ndash;200 &#181;g/m&#179;</td>
+            <td>10,1&ndash;17 mg/m&#179;</td> <!-- CO -->
+            <td>101&ndash;200 &#181;g/m&#179;</td> <!-- NO -->
             <td>101&ndash;360 &#181;g/m&#179;</td> <!-- NO2 -->
             <td>71&ndash;85 &#181;g/m&#179;</td> <!-- O3 -->          
             <td>76&ndash;185 &#181;g/m&#179;</td> <!-- SO2 -->
@@ -257,8 +258,8 @@ else if (airQualityDataList.Count > 0)
           </tr>
 
           <tr>
-            <td>17,1&ndash;34 mg/m&#179;</td>
-            <td>201&ndash;400 &#181;g/m&#179;</td>
+            <td>17,1&ndash;34 mg/m&#179;</td> <!-- CO -->
+            <td>201&ndash;400 &#181;g/m&#179;</td><!-- NO -->
             <td>361&ndash;649 &#181;g/m&#179;</td> <!-- NO2 -->
             <td>86&ndash;105 &#181;g/m&#179;</td> <!-- O3 -->       
             <td>186&ndash;304 &#181;g/m&#179;</td> <!-- SO2 -->
@@ -268,7 +269,7 @@ else if (airQualityDataList.Count > 0)
           </tr>
 
           <tr>
-            <td>34,1&ndash;40 mg/m&#179;</td>
+            <td>34,1&ndash;40 mg/m&#179;</td> <!-- CO -->
             <td>401&ndash;800 &#181;g/m&#179;</td> <!-- NO -->
             <td>650&ndash;1249 &#181;g/m&#179;</td> <!-- NO2 -->
             <td>106&ndash;200 &#181;g/m&#179;</td> <!-- O3 -->       
@@ -279,7 +280,7 @@ else if (airQualityDataList.Count > 0)
           </tr>
 
           <tr>
-            <td>>40 mg/m&#179;</td>
+            <td>>40 mg/m&#179;</td> <!-- CO -->
             <td>>800 &#181;g/m&#179;</td> <!-- NO -->
             <td>>1249 &#181;g/m&#179;</td> <!-- NO2 -->
             <td>>200 &#181;g/m&#179;</td> <!-- O3 -->          
@@ -320,19 +321,14 @@ else
 @code {
     private List<AirQualityData>? airQualityDataList;
 
-    private string json_file = "measurement-sites-dk.json";
-
-    private string api_key = "c1262517a04355d884e7692baf24655c";
-
-    @* [Inject] private HttpClient? Http { get; set; } *@
+    private string json_file = "data/measurement-sites-dk.json";
+    private string http_proxy = "https://kirkegang.net/air-quality/http_proxy.php"; // Hosted Proxy.
 
     protected override async Task OnInitializedAsync()
     {
-        @* var jsonString = await File.ReadAllTextAsync($"data/{json_file}"); *@
-
+        // Depends on http-injection: @inject HttpClient Http; cf. at the top.
         // Read a local JSON file containing information about the cities to measure.
-        // Depends on http-injection: @inject HttpClient Http -- cf. at the top.
-        var jsonString = await Http.GetStringAsync($"data/{json_file}");
+        var jsonString = await Http.GetStringAsync($"{json_file}");
 
         var geoDataList = JsonSerializer.Deserialize<List<AirQualityData>>(jsonString);
 
@@ -346,9 +342,20 @@ else
                 if (geoData.coord != null)
                 {
 
-                    var apiUrl = $"https://api.openweathermap.org/data/2.5/air_pollution?lat={geoData.coord.lat}&lon={geoData.coord.lon}&appid={api_key}";
+                    var values = new Dictionary<string, string>
+                    {
+                        { "lat", geoData.coord.lat.ToString() },
+                        { "lon", geoData.coord.lon.ToString() }
+                    };
 
-                    var apiResponse = await Http.GetFromJsonAsync<AirQualityData>(apiUrl);
+                    var content = new FormUrlEncodedContent(values);
+
+                    var response = await Http.PostAsync(http_proxy, content);
+
+                    var responseString = await response.Content.ReadAsStringAsync();
+
+                    // Deserialize the JSON string into a .NET-object.
+                    var apiResponse = JsonSerializer.Deserialize<AirQualityData>(responseString);
 
                     if (apiResponse != null)
                     {
@@ -356,6 +363,7 @@ else
                     }
 
                     airQualityDataList.Add(geoData); // Add the updated record to the list.
+  
                 }
             }
         }
