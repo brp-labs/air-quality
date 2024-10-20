@@ -6,7 +6,7 @@
 <b>GitHub Repository:</b> https://github.com/brp-labs/air-quality<br/>
 <b>GitHub Pages:</b> https://brp-labs.github.io/air-quality<br/>
 
-Data used for this application is sourced from OpenWeather at https://openweathermap.org.
+Data used for this application is sourced from <b>OpenWeather</b> at https://openweathermap.org.
 
 <hr/>
 
