@@ -1,0 +1,369 @@
+[
+
+  {
+    "coord": {
+      "lat": 23.81367,
+      "lon": 90.42120
+    },
+    "location": {
+      "city": "Dhaka, BANGLADESH",
+      "address": "Progati Sarani Rd."
+    }
+  },
+
+  {
+    "coord": {
+      "lat": 51.47308,
+      "lon": 6.78475
+    },
+    "location": {
+      "city": "Duisburg, GERMANY",
+      "address": "Brückelstraße"
+    }
+  },
+
+  {
+    "coord": {
+      "lat": 77.22855,
+      "lon": 28.60934
+    },
+    "location": {
+      "city": "New Delhi, INDIA",
+      "address": "Shahjahan Rd."
+    }
+  },
+
+  {
+    "coord": {
+      "lat": 45.15817,
+      "lon": 18.02192
+    },
+    "location": {
+      "city": "Slavonski Brod, CROATIA",
+      "address": "Ul. Nikole Zrinskog"
+    }
+  },
+
+  {
+    "coord": {
+      "lat": 34.04464,
+      "lon": -118.26258
+    },
+    "location": {
+      "city": "Los Angeles, USA",
+      "address": "Flower St."
+    }
+  },
+
+
+  {
+    "coord": {
+      "lat": 55.72897,
+      "lon": 9.11596
+    },
+    "location": {
+      "city": "Billund",
+      "address": "Grindstedvej"
+    }
+  },
+
+  {
+    "coord": {
+      "lat": 55.60481,
+      "lon": 12.66622
+    },
+    "location": {
+      "city": "Dragør",
+      "address": "Ndr. Strandvej"
+    }
+  },
+
+  {
+    "coord": {
+      "lat": 55.47441,
+      "lon": 8.46145
+    },
+    "location": {
+      "city": "Esbjerg",
+      "address": "Nørrebrogade"
+    }
+  },
+
+  {
+    "coord": {
+      "lat": 55.56415,
+      "lon": 9.75663
+    },
+    "location": {
+      "city": "Fredericia",
+      "address": "Gothersgade"
+    }
+  },
+
+  {
+    "coord": {
+      "lat": 57.44485,
+      "lon": 10.53194
+    },
+    "location": {
+      "city": "Frederikshavn",
+      "address": "Asylgade"
+    }
+  },
+
+  {
+    "coord": {
+      "lat": 56.03570,
+      "lon": 12.61278
+    },
+    "location": {
+      "city": "Helsingør",
+      "address": "Sct. Olai Gade "
+    }
+  },
+
+  {
+    "coord": {
+      "lat": 56.13822,
+      "lon": 8.96775
+    },
+    "location": {
+      "city": "Herning",
+      "address": "Rolighedsvej"
+    }
+  },
+
+  {
+    "coord": {
+      "lat": 55.92785,
+      "lon": 12.30551
+    },
+    "location": {
+      "city": "Hillerød",
+      "address": "Hostrupvej"
+    }
+  },
+
+  {
+    "coord": {
+      "lat": 57.58815,
+      "lon": 9.96009
+    },
+    "location": {
+      "city": "Hirtshals",
+      "address": "Østergade"
+    }
+  },
+
+  {
+    "coord": {
+      "lat": 56.35834,
+      "lon": 8.61537
+    },
+    "location": {
+      "city": "Holstebro",
+      "address": "Kirkestræde"
+    }
+  },
+
+  {
+    "coord": {
+      "lat": 55.86271,
+      "lon": 9.85078
+    },
+    "location": {
+      "city": "Horsens",
+      "address": "Nørregade"
+    }
+  },
+
+  {
+    "coord": {
+      "lat": 55.88193,
+      "lon": 12.50472
+    },
+    "location": {
+      "city": "Hørsholm",
+      "address": "Johannevej"
+    }
+  },
+
+  {
+    "coord": {
+      "lat": 55.67722,
+      "lon": 11.10647
+    },
+    "location": {
+      "city": "Kalundborg",
+      "address": "Slagelsevej"
+    }
+  },
+
+  {
+    "coord": {
+      "lat": 55.49125,
+      "lon": 9.47193
+    },
+    "location": {
+      "city": "Kolding",
+      "address": "Adelgade"
+    }
+  },
+
+  {
+    "coord": {
+      "lat": 55.46092,
+      "lon": 12.18305
+    },
+    "location": {
+      "city": "Køge",
+      "address": "H.C. Andersensgade"
+    }
+  },
+
+  {
+    "coord": {
+      "lat": 55.67444,
+      "lon": 12.57111
+    },
+    "location": {
+      "city": "København",
+      "address": "H.C. Andersens Boulevard"
+    }
+
+  },
+
+  {
+    "coord": {
+      "lat": 55.23107,
+      "lon": 11.76600
+    },
+    "location": {
+      "city": "Næstved",
+      "address": "Jernbanegade"
+    }
+  },
+
+  {
+    "coord": {
+      "lat": 55.39639,
+      "lon": 10.38917
+    },
+    "location": {
+      "city": "Odense",
+      "address": "Flakhaven"
+    }
+  },
+
+  {
+    "coord": {
+      "lat": 56.46090,
+      "lon": 10.03683
+    },
+    "location": {
+      "city": "Randers",
+      "address": "Rådhustorvet"
+    }
+  },
+
+  {
+    "coord": {
+      "lat": 55.64170,
+      "lon": 12.08143
+    },
+    "location": {
+      "city": "Roskilde",
+      "address": "Palæstræde"
+    }
+  },
+  
+  {
+    "coord": {
+      "lat": 55.10262,
+      "lon": 14.69931
+    },
+    "location": {
+      "city": "Rønne",
+      "address": "Store Torv"
+    }
+  },
+
+  {
+    "coord": {
+      "lat": 56.17045,
+      "lon": 9.55278
+    },
+    "location": {
+      "city": "Silkeborg",
+      "address": "Christian 8.s vej"
+    }
+  },
+
+  {
+    "coord": {
+      "lat": 55.71692,
+      "lon": 12.39424
+    },
+    "location": {
+      "city": "Skovlunde",
+      "address": "Tjørnevænget"
+    }
+  },
+
+  {
+    "coord": {
+      "lat": 54.91379,
+      "lon": 9.79019
+    },
+    "location": {
+      "city": "Sønderborg",
+      "address": "Helgolandsgade"
+    }
+  },
+ 
+  {
+    "coord": {
+      "lat": 55.70768,
+      "lon": 9.53396
+    },
+    "location": {
+      "city": "Vejle",
+      "address": "Kirkegade"
+    }
+  },
+
+  {
+    "coord": {
+      "lat": 56.45107,
+      "lon": 9.40582
+    },
+    "location": {
+      "city": "Viborg",
+      "address": "Grønnegade"
+    }
+  },
+
+  {
+    "coord": {
+      "lat": 57.05222,
+      "lon": 9.91750
+    },
+    "location": {
+      "city": "Aalborg",
+      "address": "Vesterbro"
+    }
+  },
+
+  {
+    "coord": {
+      "lat": 56.15056,
+      "lon": 10.20083
+    },
+    "location": {
+      "city": "Aarhus",
+      "address": "Banegårdsgade"
+    }
+
+  }
+ 
+]
